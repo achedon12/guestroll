@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 # ---- deps: full install, native modules for the target platform ----
-FROM node:22-alpine AS deps
+FROM node:23-alpine AS deps
 WORKDIR /app
 # Toolchain only used if a native module has no prebuilt binary for the platform.
 RUN apk add --no-cache python3 make g++
@@ -9,7 +9,7 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 # ---- build: Next.js standalone output ----
-FROM node:22-alpine AS build
+FROM node:23-alpine AS build
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY --from=deps /app/node_modules ./node_modules
